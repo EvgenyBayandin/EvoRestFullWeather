@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.webdev.weather.model.Weather;
-import ru.webdev.weather.repository.WeatherRepository;
+import ru.webdev.weather.service.WeatherService;
 
 @RestController
 @RequestMapping("/weather")
@@ -21,18 +21,22 @@ public class WeatherController {
     private String geoKey;
 
     @Autowired
-    private WeatherRepository repository;
+    private WeatherService weatherService;
 
 
     @GetMapping
-    public Iterable<Weather> findAll(){
-        return repository.findAll();
+    public Iterable<Weather> findAll() {
+        return weatherService.findAll();
     }
 
     @GetMapping("/{city}")
-    public Optional<Weather> findByLocationName(@PathVariable("city") String name){
-        return repository.findByNameIgnoreCase(name);
+    public Optional<Weather> findByLocationName(@PathVariable("city") String name) {
+        return weatherService.findByNameIgnoreCase(name);
     }
 
+    @GetMapping("/{lat}/{lon}")
+    public Weather getCurrentWeather(@PathVariable("lat") float lat, @PathVariable("lon") float lon) {
+        return weatherService.getCurrentWeather(lat, lon);
+    }
 
 }
