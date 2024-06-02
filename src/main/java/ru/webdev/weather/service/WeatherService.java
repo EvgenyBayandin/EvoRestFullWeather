@@ -1,6 +1,7 @@
 package ru.webdev.weather.service;
 
 import java.time.Instant;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import ru.webdev.weather.repository.WeatherRepository;
 
 @Service
 public class WeatherService {
+
     @Value("${geo.url}")
     private String geoUrl;
 
@@ -21,11 +23,25 @@ public class WeatherService {
 
     private RestTemplate restTemplate;
 
-    private Weather getCurrentWeather(String name, float longitude, float latitude, Instant instant){
-        String url = geoUrl + "&lon=" + longitude + "&lat=" + latitude + "&appid=" + geoKey;
+    public WeatherService() {
+        this.restTemplate = new RestTemplate();
+    }
+
+    public Iterable<Weather> findAll() {
+        return repository.findAll();
+    }
+
+    public Optional<Weather> findByNameIgnoreCase(String name) {
+        return repository.findByNameIgnoreCase(name);
+    }
+
+    public Weather getCurrentWeather(float lat, float lon) {
+        String url = geoUrl + "&lat=" + lat + "&lon=" + lon + "&appid=" + geoKey;
+
         Weather weather = restTemplate.getForObject(url, Weather.class);
 
-        weather.setCreatedAt(instant.now());
+        Instant instant = Instant.now();
+        weather.setCreatedAt(instant);
 
         return repository.save(weather);
     }
