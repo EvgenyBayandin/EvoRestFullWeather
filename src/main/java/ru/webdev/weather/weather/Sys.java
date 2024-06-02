@@ -1,16 +1,27 @@
 package ru.webdev.weather.weather;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@jakarta.persistence.Embeddable
+@Embeddable
 public class Sys {
+
+    @JsonProperty("type")
     private int type;
-    private int id;
+
+    @JsonProperty("id")
+    private int sysId;
+
+    @JsonProperty("country")
     private String country;
+
+    @JsonProperty("sunrise")
     private long sunrise;
+
+    @JsonProperty("sunset")
     private long sunset;
 }
