@@ -1,14 +1,21 @@
 package ru.webdev.weather.weather;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@jakarta.persistence.Embeddable
+@Embeddable
 public class Wind {
+
+    @JsonProperty("speed")
     private float speed;
+
+    @JsonProperty("deg")
     private int deg;
-    private double gust;
+
+    @JsonProperty("gust")
+    private Double gust;
 }
