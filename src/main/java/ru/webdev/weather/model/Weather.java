@@ -1,5 +1,6 @@
 package ru.webdev.weather.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.List;
@@ -17,14 +18,15 @@ public class Weather {
 
     @Id
     @GeneratedValue
-    @Column(insertable=false, updatable=false)
-    private int id;
+    @Column(insertable = false, updatable = false)
+    private long id;
 
     @Embedded
     private Coordinates coord;
 
     @ElementCollection
     @CollectionTable(name = "weather_condition", joinColumns = @JoinColumn(name = "weather_id"))
+    @JsonProperty("weather")
     private List<WeatherCondition> weatherConditions;
 
     private String base;
@@ -37,6 +39,7 @@ public class Weather {
     @Embedded
     private Wind wind;
 
+    @JsonProperty("clouds")
     @Embedded
     private Clouds clouds;
 
